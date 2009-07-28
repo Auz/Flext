@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head profile="http://gmpg.org/xfn/11">
+		<title>Flext</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.3/mootools-yui-compressed.js" type="text/javascript"></script>
+		<script src='flext-v1.0-uncompressed.js' type='text/javascript' ></script>
+		<style>
+			body {
+				font-family: arial;
+			}
+			.ghost-text {
+				color: #aaa;
+			}
+			textarea {
+				width: 300px;
+			}
+			.single-line {
+				height: 20px;
+				padding: 2px 4px;
+				line-height: 20px;
+			}
+			.mycolor {
+				color: #4452aa;
+			}
+			textarea {
+				background-color: #f8fbff;
+				border: 1px solid #33729e;
+			}
+		</style>
+	</head>
+	<body style='width: 600px; margin: 0 auto;'>
+		<div>
+			<h1 class='mycolor'>Flext</h1>
+			<h2>A Mootools Flexible TextArea Class</h2>
+			<h3>Simple Examples:</h3>
+			<p>growing with max height:</p>
+			<textarea name='mytext1' class='flext growme' rel='200' >Grows to a max height of 200px. After which you'll get scroll bars.</textarea>
+			<p>ghosted text:</p>
+			<textarea name='mytext2' class='flext replaceghosttext ghost-text' ghosttext='Enter text here' ghostclass='ghost-text'>Enter text here</textarea>
+			<p>ghosted text and growing:</p>
+			<textarea name='mytext3' class='flext replaceghosttext growme ghost-text' ghosttext='Enter email address' ghostclass='ghost-text'>Enter email address</textarea>
+		</div>
+		<div style='margin-top: 20px;'>
+			<h3>Advanced Examples:</h3>
+			<p>Ghosted text inside a growing textarea, also enter is stopped from making a new line, and instead will submit the form. Useful for emulating a 'text' input where you want the ability to enter and see more text.</p>
+			<form name='nothing' method='get' id='exampleform' >
+				<textarea name='mytext4' class='flext growme stopenter entersubmits replaceghosttext ghost-text single-line' rel='60' ghosttext='enter something here' ghostclass='ghost-text'>enter something here</textarea>
+				<br /><input type='submit' name='submited' value='go' />
+			</form>
+		</div>
+		<div style='border: 1px solid green; height: 214px; margin-top: 20px; width: 500px; padding: 4px'>
+			<h4>Growing parent example</h4>
+			<p>The parent (green box) has a fixed height. A normal expanding textarea would overlap (in a decent browser), however this class can grow the parent.</p>
+			<textarea name='mytext' class='flext growme' style='width: 220px; float: right; margin-right: 5px;'  >Without grow parents</textarea>
+			<textarea name='mytext' class='flext growme growparents' style='width: 220px; margin-left: 5px;'  >With grow parents</textarea>
+		</div>
+		<br /><br />
+	</body>
+</html>
