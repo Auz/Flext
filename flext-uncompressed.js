@@ -14,9 +14,11 @@
 *
 * Usage:
 *
-*  include the source somewhere on your page. Use the class names to trigger features.
+*  include the source somewhere on your page. Textareas must have the class name: 'flext' 
+*  for the class to watch them. Use additional class names to trigger features.
 * 
-*   'growme' -  grow the text area (max size can be specified with rel='<max in px>')
+*   'growme' -  grow the text area
+*   'maxheight-[num]' - the max height to grow in pixels (replaces [num] )
 *   'stopenter' - stop the enter key
 *   'entersubmits' - submit the form when enter is pressed
 *   'replaceghosttext' - tries to use the ghosted text features
@@ -31,15 +33,15 @@
 *
 *  A simple growing text area: -
 *
-*    <textarea name='mytext' class='flext growme' rel='200' ></textarea>
+*    <textarea name='mytext' class='flext growme maxheight-200' ></textarea>
 *
 *   It will find this text area by the class name, 'flext', and the 'growme' 
-*   class will tell it to grow until the max size, as given by the 'rel' 
-*   property (integer, in pixels).
+*   class will tell it to grow until the max size, as given by the 'maxheight-[num]' 
+*   class (integer, in pixels).
 *
 *  Textarea which will grow the parent elements (if needed) -
 * 
-*    <textarea name='mytext' class='flext growme growparents' rel='200' ></textarea>
+*    <textarea name='mytext' class='flext growme growparents maxheight-200' ></textarea>
 *
 *   This is the same as above, except it will also grow any parent elements which 
 *   have fixed heights when the textarea expands ('growparents').
@@ -47,7 +49,7 @@
 *
 * Adv. example:
 * 
-*  <textarea name='mytext' class='flext growme stopenter entersubmits replaceghosttext ghost-text growparents' rel='60' ghosttext='enter something here' ghostclass='ghost-text'>
+*  <textarea name='mytext' class='flext growme stopenter entersubmits replaceghosttext ghost-text growparents maxheight-60' ghosttext='enter something here' ghostclass='ghost-text'>
 *    enter something here
 * </textarea>
 *
@@ -70,7 +72,7 @@ var Flext = new Class({
 	Implements: Options,
 	options: {
 		aniTime: 300, 					//int (ms) - grow animation time
-		maxHeight: 0,					//int (pixels) - one way to set a max hieght, if you dont like using 'rel'
+		maxHeight: 0,					//int (pixels) - one way to set a max height, if you dont set it via the class.
 		defaultMaxHeight: 1000,			//int (pixels) - if not otherwise set, this is the max height
 		parentDepth: 6,				//int - how many levels up should to check the parent el's height.
 		//trigger classes:
@@ -94,18 +96,12 @@ var Flext = new Class({
 		this.enterSubmits = el.hasClass(this.options.enterSubmitsClass);
 		this.useGhostText = el.hasClass(this.options.replaceGhostTextClass);
 		this.growParents = el.hasClass(this.options.growParentsClass);
-
+		
 		//initialize, and add events:
 		if(this.autoGrow) {
 			this.startSize = this.el.getSize().y;
 			this.resizer = new Fx.Tween(this.el, {duration: this.options.aniTime});
-			this.maxSize = this.options.maxHeight;
-			if(this.maxSize == 0) {
-				this.maxSize = this.el.get('rel');
-				if(!this.maxSize || this.maxSize == '' || this.maxSize == null ) {
-					this.maxSize = this.options.defaultMaxHeight; //if one forgets to set a max height via options or from the rel, use a reasonable number.
-				}
-			}
+			this.getMaxSize();
 			this.reachedMax = false;
 			this.origSize = this.el.getSize().y;
 			this.el.setStyle('overflow', 'hidden');
@@ -160,6 +156,18 @@ var Flext = new Class({
 			}
 		}
 		
+	},
+	getMaxSize: function() {
+		this.maxSize = this.options.maxHeight;
+		if(this.maxSize == 0) {
+			var testmax = this.el.className.match(/maxheight-(\d*)/);
+			if(testmax) {
+				this.maxSize = testmax[1];
+			}
+			else {
+				this.maxSize = this.options.defaultMaxHeight; //if one forgets to set a max height via options or class, use a reasonable number.
+			}
+		}
 	},
 	checkSize: function(e) {
 		var theSize = this.el.getSize();

@@ -1,0 +1,71 @@
+ Flext - A Mootools Based Flexible TextArea Class
+ version 1.0 - for mootools 1.2
+ by Graham McNicoll
+ 
+ Copyright 2008-2009 - Education.com
+ License:	MIT-style license.
+
+Features:
+  - Grows text areas when needed
+  - Grows parents if they have a fixed height
+  - Ghost text replacement
+  - Text input emulation (enter can submit form, instead of new line)
+
+Todo: 
+  - Possible make the textareas shrink as well
+  - Change the way the ghosting works
+
+Usage:
+
+  include the source somewhere on your page. Use the class names to trigger features.
+ 
+   'growme' -  grow the text area (max size can be specified with rel='<max in px>')
+   'stopenter' - stop the enter key
+   'entersubmits' - submit the form when enter is pressed
+   'replaceghosttext' - tries to use the ghosted text features
+   'growparents' - grow the parent elements if needed
+
+  if replaceghosttext is on, then you need to add two more attributes to the textarea. 
+  'ghosttext' contains a copy of the original ghost text (needed for matching initial conditions),
+  and 'ghostclass' which contains a class name to remove when the ghosting is removed (which 
+  is used to remove ghosting color).
+ 
+Examples: 
+
+  A simple growing text area: -
+
+    <textarea name='mytext' class='flext growme' rel='200' ></textarea>
+
+   It will find this text area by the class name, 'flext', and the 'growme' 
+   class will tell it to grow until the max size, as given by the 'rel' 
+   property (integer, in pixels).
+
+  Textarea which will grow the parent elements (if needed) -
+ 
+    <textarea name='mytext' class='flext growme growparents' rel='200' ></textarea>
+
+   This is the same as above, except it will also grow any parent elements which 
+   have fixed heights when the textarea expands ('growparents').
+
+
+ Adv. example:
+ 
+  <textarea name='mytext' class='flext growme stopenter entersubmits replaceghosttext ghost-text growparents' rel='60' ghosttext='enter something here' 
+ghostclass='ghost-text'>
+    enter something here
+ </textarea>
+
+   This example not only grows, but simulates a text input, in that 'enter' 
+   will not be passed to the textarea ('stopenter') instead it will submit 
+   the form ('entersubmits'). It also has ghosted text replacement and class 
+   changing. When this textarea receives focus, it will remove the default 
+   text (ghosttext property), and remove the class as specified by the 
+   ghostclass property. Use of these features as currently coded requires
+   non valid xhtml, so dont use it if you require valid markup. (its on my list to fix)
+ 
+
+Notes:
+
+  You can also instantiate this class manually, by leaving off the 'flext' class from 
+  any textareas, and instantiate a new class usual with the first variable being the 
+  textarea element, and the second the options object.
