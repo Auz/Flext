@@ -48,12 +48,13 @@ Examples:
     <textarea name='mytext' class='flext growme growparents maxheight-200' ></textarea>
 
    This is the same as above, except it will also grow any parent elements which 
-   have fixed heights when the textarea expands ('growparents').
+   have explicitly set heights when the textarea expands ('growparents'). Using an element with an 
+   explicit height is uncommon in normal html, but Fx.Slide and other js can make such elements. 
 
 
  Adv. example:
  
-  <textarea name='mytext' class='flext growme stopenter entersubmits replaceghosttext ghost-text growparents' rel='60' ghosttext='enter something here' 
+  <textarea name='mytext' class='flext growme stopenter entersubmits replaceghosttext ghost-text growparents maxheight-60' ghosttext='enter something here' 
 ghostclass='ghost-text'>
     enter something here
  </textarea>
