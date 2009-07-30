@@ -7,6 +7,7 @@
 
 Features:
   - Grows text areas when needed
+  - Can set a max height to grow to
   - Grows parents if they have a fixed height
   - Ghost text replacement
   - Text input emulation (enter can submit form, instead of new line)
@@ -17,9 +18,11 @@ Todo:
 
 Usage:
 
-  include the source somewhere on your page. Use the class names to trigger features.
+  include the source somewhere on your page. Textareas must have the class name: 'flext'
+  for the class to start watching them. Use the class names to trigger features.
  
-   'growme' -  grow the text area (max size can be specified with rel='<max in px>')
+   'growme' -  grow the text area
+   'maxheight-[num]' - The max height to grow (in pixels)
    'stopenter' - stop the enter key
    'entersubmits' - submit the form when enter is pressed
    'replaceghosttext' - tries to use the ghosted text features
@@ -34,15 +37,15 @@ Examples:
 
   A simple growing text area: -
 
-    <textarea name='mytext' class='flext growme' rel='200' ></textarea>
+    <textarea name='mytext' class='flext growme maxheight-200' ></textarea>
 
    It will find this text area by the class name, 'flext', and the 'growme' 
-   class will tell it to grow until the max size, as given by the 'rel' 
-   property (integer, in pixels).
+   class will tell it to grow until the max size, as given by the 'maxheight-[num]'
+   class (integer, in pixels).
 
   Textarea which will grow the parent elements (if needed) -
  
-    <textarea name='mytext' class='flext growme growparents' rel='200' ></textarea>
+    <textarea name='mytext' class='flext growme growparents maxheight-200' ></textarea>
 
    This is the same as above, except it will also grow any parent elements which 
    have fixed heights when the textarea expands ('growparents').
