@@ -8,6 +8,7 @@
 *
 * Features:
 *  - Grows text areas when needed
+*  - Can set a max height to grow to
 *  - Grows parents if they have a fixed height
 *  - Ghost text replacement
 *  - Text input emulation (enter can submit form, instead of new line)
@@ -99,15 +100,22 @@ var Flext = new Class({
 		
 		//initialize, and add events:
 		if(this.autoGrow) {
-			this.startSize = this.el.getSize().y;
 			this.resizer = new Fx.Tween(this.el, {duration: this.options.aniTime});
 			this.getMaxSize();
 			this.reachedMax = false;
-			this.origSize = this.el.getSize().y;
+			this.startSize = this.origSize = this.el.getSize().y;
 			this.el.setStyle('overflow', 'hidden');
-			this.el.addEvent('keyup', function(e) {
-				this.checkSize(e);
-			}.bind(this));
+			this.el.addEvents({
+				'keyup': function(e) {
+					this.checkSize(e);
+				}.bind(this),
+				'change': function(e) {
+					this.checkSize(e);
+				}.bind(this),
+				'click': function(e) {
+					this.checkSize(e);
+				}.bind(this)
+			});
 		
 			//get inital state:
 			this.checkSize();
@@ -194,6 +202,7 @@ var Flext = new Class({
 		if(!this.reachedMax) {
 			//grow the text area:
 			var increasedSize = newSize - this.startSize;
+			if(increasedSize < 0) increasedSize = 0;
 			this.startSize = newSize;
 			this.resizer.start('height', newSize);
 			//resize parent objects if needed:
@@ -207,7 +216,7 @@ var Flext = new Class({
 			var newel = el.getParent();
 			if(newel) {
 				if(newel.style.height && newel.style.height != '' ) {
-					newel.setStyle('height', (newel.getStyle('height').toInt()+incSize));
+					newel.setStyle('height', (newel.getStyle('height').toInt()+incSize+1));
 				}
 				return this.resizeParents(newel, (num+1), incSize);
 			}
