@@ -1,6 +1,6 @@
 /*
 * Flext - A Mootools Based Flexible TextArea Class
-* version 1.0 - for mootools 1.2
+* version 1.1 - for mootools 1.2
 * by Graham McNicoll
 * 
 * Copyright 2008-2009 - Education.com
