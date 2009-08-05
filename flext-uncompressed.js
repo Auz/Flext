@@ -104,6 +104,7 @@ var Flext = new Class({
 			this.getMaxSize();
 			this.reachedMax = false;
 			this.startSize = this.origSize = this.el.getSize().y;
+			this.vertPadding = this.el.getStyle('padding-top').toInt()+this.el.getStyle('padding-bottom').toInt()+this.el.getStyle('border-top').toInt()+this.el.getStyle('border-bottom').toInt();
 			this.el.setStyle('overflow', 'hidden');
 			this.el.addEvents({
 				'keyup': function(e) {
@@ -180,14 +181,14 @@ var Flext = new Class({
 	checkSize: function(e) {
 		var theSize = this.el.getSize();
 		var theScrollSize = this.el.getScrollSize();
-		if(theScrollSize.y > theSize.y) {
+		if((theScrollSize.y+this.vertPadding) > theSize.y) {
 			//we are scrolling, so grow:
 			this.resizeIt(theSize, theScrollSize);
 		}
 	},
 	resizeIt: function(theSize, scrollSize) {
 		var newSize = scrollSize.y;
-		if(scrollSize.y > this.maxSize && !this.reachedMax) {
+		if((scrollSize.y+this.vertPadding) > this.maxSize && !this.reachedMax) {
 			//we've reached the max size, grow to max size and make textarea scrollable again:
 			newSize = this.maxSize;
 			this.el.setStyle('overflow', '');
@@ -216,7 +217,13 @@ var Flext = new Class({
 			var newel = el.getParent();
 			if(newel) {
 				if(newel.style.height && newel.style.height != '' ) {
-					newel.setStyle('height', (newel.getStyle('height').toInt()+incSize+1));
+					if(newel.retrieve('flextAdjusted')) {
+						var newheight = (newel.getStyle('height').toInt()+incSize);
+					} else {
+						newel.store('flextAdjusted', true); //when resizing parents, the first time we enlarge them we have to include vertical padding
+						var newheight = (newel.getStyle('height').toInt()+incSize+this.vertPadding);
+					}
+					newel.setStyle('height', newheight);
 				}
 				return this.resizeParents(newel, (num+1), incSize);
 			}
