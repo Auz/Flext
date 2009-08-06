@@ -181,7 +181,10 @@ var Flext = new Class({
 	checkSize: function(e) {
 		var theSize = this.el.getSize();
 		var theScrollSize = this.el.getScrollSize();
-		if((theScrollSize.y+this.vertPadding) > theSize.y) {
+		if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1) { var checksize = (theScrollSize.y); }
+		else var checksize = (theScrollSize.y+this.vertPadding);
+		
+		if(checksize > theSize.y) {
 			//we are scrolling, so grow:
 			this.resizeIt(theSize, theScrollSize);
 		}
